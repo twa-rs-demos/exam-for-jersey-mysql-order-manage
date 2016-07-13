@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thoughtworks.ketsu.infrastructure.mybatis.mappers.CertificateMapper">
+    <insert id="create">
+        insert into certificates (id, user_id, capability_id, evaluation_id, score)
+        values (#{certificate.certificateId.id}, #{certificate.userId.id}, #{certificate.capabilityId.id}, #{certificate.evaluationId.id}, #{certificate.score});
+    </insert>
+    <select id="ofId" resultMap="records.certificate">
+        select
+        <include refid="columns.certificate"/>
+        from certificates CE
+        where CE.id = #{id}
+    </select>
+
+    <select id="findByUserId" resultMap="records.certificate">
+        select
+        <include refid="columns.certificate"/>
+        from certificates CE
+        where CE.user_id = #{userId}
+    </select>
+
+    <select id="queryByUserId" resultMap="records.certificateData">
+        select
+        <include refid="columns.certificate"/>,
+        <include refid="columns.user"/>,
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>
+        from certificates CE
+        left join users U on CE.user_id = U.id
+        left join capabilities C on C.id = CE.capability_id
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        where CE.user_id = #{userId}
+    </select>
+
+    <select id="queryById" resultMap="records.certificateData">
+        select
+        <include refid="columns.certificate"/>,
+        <include refid="columns.user"/>,
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>
+        from certificates CE
+        left join users U on CE.user_id = U.id
+        left join capabilities C on C.id = CE.capability_id
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        where CE.id = #{certId}
+    </select>
+</mapper>

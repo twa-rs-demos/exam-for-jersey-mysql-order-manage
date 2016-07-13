@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thoughtworks.ketsu.infrastructure.mybatis.mappers.EventMapper">
+    <insert id="create">
+        INSERT INTO events (type, id
+        <choose>
+            <when test="event.type.startsWith('Demand')">
+                , demand_project_id
+                , demand_capability_id
+                , demand_created_at
+            </when>
+        </choose>
+        ) VALUE (
+        #{event.type}, #{event.eventId.id}
+        <choose>
+            <when test="event.type.startsWith('Demand')">
+                , #{event.projectCapabilityDemand.projectId.id}
+                , #{event.projectCapabilityDemand.capabilityId.id}
+                , #{event.projectCapabilityDemand.createdAt}
+            </when>
+        </choose>
+        );
+    </insert>
+    <select id="ofId" resultMap="records.event">
+        select
+        <include refid="columns.event"/>
+        from events EV
+        where EV.id = #{id}
+    </select>
+
+    <select id="findDemandEvetsOfProject" resultMap="records.eventData">
+        select
+        <include refid="columns.event"/>,
+        <include refid="columns.capability"/>,
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>
+        from events EV
+        left join capabilities C on EV.demand_capability_id = C.id
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        where EV.type in ('DemandCreated', 'DemandRemoved') and EV.demand_project_id = #{projectId}
+        order by EV._id desc
+    </select>
+</mapper>

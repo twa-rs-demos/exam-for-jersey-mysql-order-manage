@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thoughtworks.ketsu.infrastructure.mybatis.mappers.SolutionMapper">
+    <insert id="create">
+        INSERT INTO solutions(id, name) VALUES (#{solution.id}, #{solution.name})
+    </insert>
+    <select id="findByName" resultMap="records.solution">
+        SELECT
+          <include refid="columns.solution"/>
+        FROM solutions SO
+        WHERE SO.name = #{name}
+    </select>
+    <select id="ofId" resultMap="records.solution">
+        SELECT
+          <include refid="columns.solution"/>
+        FROM solutions SO
+        WHERE SO.id = #{id}
+    </select>
+    <select id="findAll" resultMap="records.solution">
+        SELECT
+          <include refid="columns.solution"/>
+        FROM solutions SO
+    </select>
+</mapper>

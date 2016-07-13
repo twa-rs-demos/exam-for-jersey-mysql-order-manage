@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thoughtworks.ketsu.infrastructure.mybatis.mappers.EvaluationMapper">
+    <insert id="create">
+        insert into evaluations (id, user_id, capability_id, exampaper_id, exampaper_name, exampaper_repo, status, cost_seconds, access_key)
+        values(
+          #{evaluation.evaluationId.id},
+          #{evaluation.userId.id},
+          #{evaluation.capabilityId.id},
+          #{evaluation.examPaper.examPaperId.id},
+          #{evaluation.examPaper.name},
+          #{evaluation.examPaper.repositoryUrl},
+          #{evaluation.status},
+          #{evaluation.costSeconds},
+          #{evaluation.accessKey}
+        )
+    </insert>
+    <update id="update">
+        update evaluations
+        set
+          status=#{evaluation.status},
+          cost_seconds=#{evaluation.costSeconds}
+        where id = #{evaluation.evaluationId.id}
+    </update>
+    <update id="delete">
+        update evaluations set deleted_at=CURRENT_TIMESTAMP
+        where id = #{evaluation.evaluationId.id}
+    </update>
+    <select id="ofId" resultMap="records.evaluation">
+        select
+          <include refid="columns.evaluation"/>
+        from evaluations EV
+        WHERE EV.id = #{id} and deleted_at is NULL
+    </select>
+    <select id="countOfUser" resultType="java.lang.Long">
+        select count(1) from evaluations where user_id = #{userId} and deleted_at is NULL
+    </select>
+    <select id="queryByUserId" resultMap="records.evaluationData">
+        select
+        <include refid="columns.evaluation"/>,
+        <include refid="columns.user"/>,
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>
+        from evaluations EV
+        left join users U on EV.user_id = U.id
+        left join capabilities C on C.id = EV.capability_id
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        WHERE EV.user_id = #{userId} and deleted_at is NULL
+        limit #{offset}, #{limit}
+    </select>
+    <select id="queryById" resultMap="records.evaluationData">
+        select
+        <include refid="columns.evaluation"/>,
+        <include refid="columns.user"/>,
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>
+        from evaluations EV
+        left join users U on EV.user_id = U.id
+        left join capabilities C on C.id = EV.capability_id
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        where EV.id = #{id}
+    </select>
+    <select id="findByUserId" resultMap="records.evaluation">
+        select
+          <include refid="columns.evaluation"/>
+        from evaluations EV
+        WHERE EV.user_id = #{userId} and deleted_at is NULL
+    </select>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thoughtworks.ketsu.infrastructure.mybatis.mappers.CapabilityMapper">
+    <insert id="create">
+        insert into capabilities (id, solution_id, stack_id) values (#{capability.capabilityId.id}, #{capability.solution.id}, #{capability.stack.id});
+    </insert>
+    <insert id="saveExamPaper">
+        insert into exampapers (id, name, repo, capability_id) values (#{examPaper.id}, #{examPaper.name}, #{examPaper.repo}, #{examPaper.capability.id})
+    </insert>
+    <sql id="selectCapability">
+        SELECT
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>,
+        <include refid="columns.exampaper"/>
+        FROM capabilities C
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        LEFT JOIN exampapers EP on EP.capability_id = C.id
+    </sql>
+
+    <select id="ofId" resultMap="records.capability">
+        <include refid="selectCapability"/>
+        WHERE C.id = #{id}
+    </select>
+
+    <select id="getAll" resultMap="records.capability">
+        <include refid="selectCapability"/>
+        order by C.created_at, EP.created_at
+    </select>
+
+    <select id="findByProject" resultMap="records.capability">
+        select
+        <include refid="columns.project_capability_demand"/>,
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>
+        from project_demands PD
+        left join capabilities C on PD.capability_id = C.id
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        where PD.project_id = #{projectId}
+    </select>
+
+    <sql id="selectCapabilityData">
+        SELECT
+        <include refid="columns.capability"/>,
+        <include refid="columns.stack"/>,
+        <include refid="columns.solution"/>,
+        <include refid="columns.exampaper"/>
+        from capabilities C
+        LEFT JOIN stacks S on S.id = C.stack_id
+        LEFT JOIN solutions SO on SO.id = C.solution_id
+        LEFT JOIN exampapers EP on EP.capability_id = C.id
+    </sql>
+    <select id="findAll" resultMap="records.capabilityData">
+        <include refid="selectCapabilityData"/>
+    </select>
+    <select id="findById" resultMap="records.capabilityData">
+        <include refid="selectCapabilityData"/>
+        where C.id = #{capabilityId}
+    </select>
+</mapper>
