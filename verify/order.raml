@@ -51,6 +51,24 @@ mediaType: application/json
     description: As a admin I can create a product so that customer can buy the product
     body:
       application/json:
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": ["uri", "id", "name", "description", "price"]
+          }
         example: |
           {
             "name": "xxx",
@@ -63,6 +81,42 @@ mediaType: application/json
           Location:
             description: "created production uri"
             type: string
+      400:
+        description: "Bad request information provided"
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["field", "message"]
+                }
+              }
+            example: |
+              [
+                {
+                  "field": "name",
+                  "message": "can not be empty"
+                },
+                {
+                  "field": "description",
+                  "message": "description can not be empty"
+                },
+                {
+                  "field": "price",
+                  "message": "price can not be empty"
+                }
+              ]
   /{productId}:
     get:
       description: As a customer I can view the product detail so that I can decide whether to buy the product or not.
@@ -101,6 +155,8 @@ mediaType: application/json
                   "description": "red apple",
                   "price": 1.1
                 }
+        404:
+          description: Can not find the product by id
 /users:
   post:
     description: register a new customer
@@ -129,7 +185,66 @@ mediaType: application/json
           Location:
             description: "created user uri"
             type: string
+      400:
+        description: "Bad request information provided"
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["field", "message"]
+                }
+              }
+            example: |
+              [
+                {
+                  "field": "name",
+                  "message": "can not be empty"
+                }
+              ]
   /{id}:
+    get:
+      description: As user, I can get my user detail info so that I can know what I have recorded.
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "type": "object",
+                  "properties": {
+                    "uri": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "required": ["id", "uri", "name"]
+                  }
+                }
+              example: |
+                {
+                  "name": "scxu",
+                  "uri": "/users/1",
+                  "id": "1"
+                }
+        404:
+          description: Can not find user by Id
     /orders:
       post:
         description: As a customer I can create an order to buy some product
@@ -185,7 +300,42 @@ mediaType: application/json
               Location:
                 description: "created order uri"
                 type: string
+          400:
+            description: "Bad request information provided"
             body:
+              application/json:
+                schema: |
+                  {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["field", "message"]
+                    }
+                  }
+                example: |
+                  [
+                    {
+                      "field": "name",
+                      "message": "name can not be empty"
+                    },
+                    {
+                      "field": "address",
+                      "message": "address can not be empty"
+                    },
+                    {
+                      "field": "phone",
+                      "message": "phone can not be empty"
+                    }
+                  ]
       get:
         description: As a customer I can review the orders so that I can know when and how much I have spend
         responses:
@@ -302,6 +452,8 @@ mediaType: application/json
                         }
                       ]
                     }
+            404:
+              description: Can not find the order by id
         /payment:
           post:
             description: As a customer I can pay for my order so that I can receive the product.
@@ -329,44 +481,78 @@ mediaType: application/json
                   }
             responses:
               201:
+              400:
+                description: "Bad request information provided"
+                body:
+                  application/json:
+                    schema: |
+                      {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "field": {
+                              "type": "string"
+                            },
+                            "message": {
+                              "type": "string"
+                            }
+                          },
+                          "required": ["field", "message"]
+                        }
+                      }
+                    example: |
+                      [
+                        {
+                          "field": "amount",
+                          "message": "can not be empty"
+                        },
+                        {
+                          "field": "pay_type",
+                          "message": "can not be empty"
+                        }
+                      ]
           get:
-             description: As a customer I can view the payment of the order to know whether I have payed for the order
-             responses:
-               200:
-                 body:
-                   application/json:
-                     schema: |
-                       {
-                         "$schema": "http://json-schema.org/draft-04/schema#",
-                         "type": "object",
-                         "properties": {
-                           "order_uri": {
-                             "type": "string"
-                           },
-                           "uri": {
-                             "type": "string"
-                           },
-                           "pay_type": {
-                             "enum": ["CASH", "CREDIT_CARD"]
-                           },
-                           "amount": {
-                             "type": "number"
-                           },
-                           "total_price": {
-                             "type": "number",
-                             "minimum": 0
-                           },
-                           "created_at": {
-                             "type": "date"
-                           },
-                           "required": ["order_uri", "uri", "pay_type", "amount", "created_at"]
-                         }
-                       }
-                     example: |
-                       {
-                         "order_uri": "/users/1/orders/1",
-                         "uri": "/users/1/orders/1/payment"
-                         "pay_type": "CASH",
-                         "amount": 100,
-                         "created_at": "2014-01-01"
-                       }
+            description: As a customer I can view the payment of the order to know whether I have payed for the order
+            responses:
+              200:
+                body:
+                  application/json:
+                    schema: |
+                      {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "type": "object",
+                        "properties": {
+                          "order_uri": {
+                            "type": "string"
+                          },
+                          "uri": {
+                            "type": "string"
+                          },
+                          "pay_type": {
+                            "enum": ["CASH", "CREDIT_CARD"]
+                          },
+                          "amount": {
+                            "type": "number"
+                          },
+                          "total_price": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "created_at": {
+                            "type": "date"
+                          },
+                          "required": ["order_uri", "uri", "pay_type", "amount", "created_at"]
+                        }
+                      }
+                    example: |
+                      {
+                        "order_uri": "/users/1/orders/1",
+                        "uri": "/users/1/orders/1/payment"
+                        "pay_type": "CASH",
+                        "amount": 100,
+                        "created_at": "2014-01-01"
+                      }
+              404:
+                description: Can not find the payment of the order, the order is not paied yet.

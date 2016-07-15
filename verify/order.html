@@ -1,0 +1,565 @@
+<!DOCTYPE HTML><html><head><title>Order System API API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.4.0"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script><style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>Order System API API documentation</h1><p></p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="products" class="panel-title">/products</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_products"><span class="parent"></span>/products</a> <span class="methods"><a href="#products_get"><span class="badge badge_get">get</span></a> <a href="#products_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_products" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#products_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>As a customer I can get all the products then I can get products to buy.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#products_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>As a admin I can create a product so that customer can buy the product</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="products_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/products</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a customer I can get all the products then I can get products to buy.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#products_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="products_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "uri": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "price": {
+        "type": "number",
+        "minimum": 0
+      },
+      "id": {
+        "type": "string"
+      }
+    },
+    "required": ["uri", "id", "name", "description", "price"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    "id": "1",
+    "uri": "/products/1",
+    "name": "apple",
+    "description": "red apple",
+    "price": 1.1
+  }
+]
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="products_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/products</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a admin I can create a product so that customer can buy the product</p></div><ul class="nav nav-tabs"><li class="active"><a href="#products_post_request" data-toggle="tab">Request</a></li><li><a href="#products_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="products_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "required": ["uri", "id", "name", "description", "price"]
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "name": "xxx",
+  "description": "xxx",
+  "price": 1.2
+}
+</code></pre></div><div class="tab-pane" id="products_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>created production uri</p></li></ul><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Bad request information provided</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "field": {
+        "type": "string"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": ["field", "message"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    "field": "name",
+    "message": "can not be empty"
+  },
+  {
+    "field": "description",
+    "message": "description can not be empty"
+  },
+  {
+    "field": "price",
+    "message": "price can not be empty"
+  }
+]
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_products__productId_"><span class="parent">/products</span>/{productId}</a> <span class="methods"><a href="#products__productId__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_products__productId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#products__productId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>As a customer I can view the product detail so that I can decide whether to buy the product or not.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="products__productId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/products</span>/{productId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a customer I can view the product detail so that I can decide whether to buy the product or not.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#products__productId__get_request" data-toggle="tab">Request</a></li><li><a href="#products__productId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="products__productId__get_request"><h3>URI Parameters</h3><ul><li><strong>productId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="products__productId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0
+    },
+    "required": ["id", "uri", "name", "description", "price"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "uri": "/products/1",
+  "name": "apple",
+  "description": "red apple",
+  "price": 1.1
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Can not find the product by id</p></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="users" class="panel-title">/users</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_users"><span class="parent"></span>/users</a> <span class="methods"><a href="#users_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_users" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#users_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>register a new customer</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="users_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/users</h4></div><div class="modal-body"><div class="alert alert-info"><p>register a new customer</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users_post_request" data-toggle="tab">Request</a></li><li><a href="#users_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+$"
+    }
+  },
+  "required": ["name"]
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "name": "scxu"
+}
+</code></pre></div><div class="tab-pane" id="users_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>create success</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>created user uri</p></li></ul><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Bad request information provided</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "field": {
+        "type": "string"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": ["field", "message"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    "field": "name",
+    "message": "can not be empty"
+  }
+]
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_users__id_"><span class="parent">/users</span>/{id}</a> <span class="methods"><a href="#users__id__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_users__id_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#users__id__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>As user, I can get my user detail info so that I can know what I have recorded.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="users__id__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/users</span>/{id}</h4></div><div class="modal-body"><div class="alert alert-info"><p>As user, I can get my user detail info so that I can know what I have recorded.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users__id__get_request" data-toggle="tab">Request</a></li><li><a href="#users__id__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users__id__get_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="users__id__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "required": ["id", "uri", "name"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "name": "scxu",
+  "uri": "/users/1",
+  "id": "1"
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Can not find user by Id</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_users__id__orders"><span class="parent">/users/{id}</span>/orders</a> <span class="methods"><a href="#users__id__orders_post"><span class="badge badge_post">post</span></a> <a href="#users__id__orders_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_users__id__orders" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#users__id__orders_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>As a customer I can create an order to buy some product</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#users__id__orders_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>As a customer I can review the orders so that I can know when and how much I have spend</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="users__id__orders_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/users/{id}</span>/orders</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a customer I can create an order to buy some product</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users__id__orders_post_request" data-toggle="tab">Request</a></li><li><a href="#users__id__orders_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users__id__orders_post_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "order_items": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "product_id": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": ["product_id", "quantity"]
+      }
+    },
+    "required": ["name", "address", "phone", "order_items"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "name": "kayla",
+  "address": "beijing"
+  "phone": "13200000000",
+  "order_items": [
+    {
+      "product_id": "1",
+      "quantity": 2
+    }
+  ]
+}
+</code></pre></div><div class="tab-pane" id="users__id__orders_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>created order uri</p></li></ul><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Bad request information provided</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "field": {
+        "type": "string"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": ["field", "message"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    "field": "name",
+    "message": "name can not be empty"
+  },
+  {
+    "field": "address",
+    "message": "address can not be empty"
+  },
+  {
+    "field": "phone",
+    "message": "phone can not be empty"
+  }
+]
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="users__id__orders_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/users/{id}</span>/orders</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a customer I can review the orders so that I can know when and how much I have spend</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users__id__orders_get_request" data-toggle="tab">Request</a></li><li><a href="#users__id__orders_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users__id__orders_get_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="users__id__orders_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "integer"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0
+    },
+    "uri": {
+      "type": "string"
+    },
+    "required": ["uri", "name", "address", "phone", "total_price", "created_at"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    "uri": "/users/1/orders/1",
+    "name": "kayla",
+    "address": "beijing"
+    "phone": "13912344321"
+    "total_price": 100,
+    "created_at": 1468212301
+  }
+]
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_users__id__orders__orderId_"><span class="parent">/users/{id}/orders</span>/{orderId}</a> <span class="methods"><a href="#users__id__orders__orderId__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_users__id__orders__orderId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#users__id__orders__orderId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>As a customer I can view the order detail so that I can know what product I have bought.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="users__id__orders__orderId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/users/{id}/orders</span>/{orderId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a customer I can view the order detail so that I can know what product I have bought.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users__id__orders__orderId__get_request" data-toggle="tab">Request</a></li><li><a href="#users__id__orders__orderId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users__id__orders__orderId__get_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em></li><li><strong>orderId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="users__id__orders__orderId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "uri": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "total_price": {
+      "type": "number",
+      "minimum": 0
+    },
+    "created_at": {
+      "type": "integer"
+    },
+    "order_items": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "uri": {
+            "type": "string"
+          },
+          "product_id": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "amount": {
+            "description": "price for single item",
+            "type": "number"
+          }
+        },
+        "required": ["uri", "product_id", "quantity", "amount"]
+      }
+    },
+    "required": ["name", "address", "phone", "price", "order_items", "uri", "created_at"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "uri": "/users/1/orders/1",
+  "name": "kayla",
+  "address": "beijing",
+  "phone": "13912344321"
+  "total_price": 100,
+  "created_at": 1468212301
+  "order_items": [
+    {
+      "product_id": 1,
+      "quantity": 2,
+      "amount": 100
+    }
+  ]
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Can not find the order by id</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_users__id__orders__orderId__payment"><span class="parent">/users/{id}/orders/{orderId}</span>/payment</a> <span class="methods"><a href="#users__id__orders__orderId__payment_post"><span class="badge badge_post">post</span></a> <a href="#users__id__orders__orderId__payment_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_users__id__orders__orderId__payment" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#users__id__orders__orderId__payment_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>As a customer I can pay for my order so that I can receive the product.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#users__id__orders__orderId__payment_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>As a customer I can view the payment of the order to know whether I have payed for the order</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="users__id__orders__orderId__payment_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/users/{id}/orders/{orderId}</span>/payment</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a customer I can pay for my order so that I can receive the product.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users__id__orders__orderId__payment_post_request" data-toggle="tab">Request</a></li><li><a href="#users__id__orders__orderId__payment_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users__id__orders__orderId__payment_post_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em></li><li><strong>orderId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "pay_type": {
+      "enum": ["CASH", "CREDIT_CARD"]
+    },
+    "required": ["amount", "pay_type"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "pay_type": "CASH",
+  "amount": 100
+}
+</code></pre></div><div class="tab-pane" id="users__id__orders__orderId__payment_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>Bad request information provided</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "field": {
+        "type": "string"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": ["field", "message"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>[
+  {
+    "field": "amount",
+    "message": "can not be empty"
+  },
+  {
+    "field": "pay_type",
+    "message": "can not be empty"
+  }
+]
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="users__id__orders__orderId__payment_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/users/{id}/orders/{orderId}</span>/payment</h4></div><div class="modal-body"><div class="alert alert-info"><p>As a customer I can view the payment of the order to know whether I have payed for the order</p></div><ul class="nav nav-tabs"><li class="active"><a href="#users__id__orders__orderId__payment_get_request" data-toggle="tab">Request</a></li><li><a href="#users__id__orders__orderId__payment_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="users__id__orders__orderId__payment_get_request"><h3>URI Parameters</h3><ul><li><strong>id</strong>: <em>required (string)</em></li><li><strong>orderId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="users__id__orders__orderId__payment_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "order_uri": {
+      "type": "string"
+    },
+    "uri": {
+      "type": "string"
+    },
+    "pay_type": {
+      "enum": ["CASH", "CREDIT_CARD"]
+    },
+    "amount": {
+      "type": "number"
+    },
+    "total_price": {
+      "type": "number",
+      "minimum": 0
+    },
+    "created_at": {
+      "type": "date"
+    },
+    "required": ["order_uri", "uri", "pay_type", "amount", "created_at"]
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{
+  "order_uri": "/users/1/orders/1",
+  "uri": "/users/1/orders/1/payment"
+  "pay_type": "CASH",
+  "amount": 100,
+  "created_at": "2014-01-01"
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Can not find the payment of the order, the order is not paied yet.</p></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#products">/products</a></li><li><a href="#users">/users</a></li></ul></div></div></div></div></body></html>
