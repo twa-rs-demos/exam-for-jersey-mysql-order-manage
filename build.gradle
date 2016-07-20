@@ -153,17 +153,19 @@ task itestJar(type: Jar, dependsOn: jar) {
     }
 }
 
-
 node {
     // If true, it will download node using above parameters.
     // If false, it will try to use globally installed node.
     download = true
 }
 
-task itest(type: Exec) {
-    workingDir file("${project.rootDir}/verify")
-    environment << [ENDPOINT: environment.get("ENDPOINT")]
-    commandLine 'mocha', 'verify.js'
+task itest(type: NpmTask) {
+    description = "Run test"
+    workingDir = file("${project.rootDir}/verify")
+    args = ['run', 'test']
+    def _env = [:]
+    _env << System.getenv();
+    environment = _env
 }
 
 task installDeps(type: NpmTask) {
@@ -172,7 +174,15 @@ task installDeps(type: NpmTask) {
     args = ['install']
 }
 
+task installGolbalDeps(type: NpmTask) {
+    description = "Installs dependencies from package.json"
+    workingDir = file("${project.rootDir}/verify")
+    args = ['run', 'preinstall']
+}
+
+installDeps.dependsOn installGolbalDeps
 itest.dependsOn installDeps
+
 itestJar.dependsOn itestClasses
 
 task integrationTest(type: Test) {
