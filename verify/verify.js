@@ -14,6 +14,7 @@ console.log(endpoint);
 var productId, productURI, userName, orderURI, orderId;
 
 describe("Test", function () {
+  this.timeout(60000);
   it("POST /products -> 201", function(done) {
     var options = {
       url: endpoint + '/products',
@@ -245,7 +246,7 @@ describe("Test", function () {
       url: endpoint + '/users/' + userName + '/orders',
       method: 'GET',
       qs: {},
-      body: "",
+      json: "",
       header: {}
     };
 
