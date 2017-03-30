@@ -156,7 +156,7 @@ task itestJar(type: Jar, dependsOn: jar) {
 node {
     // If true, it will download node using above parameters.
     // If false, it will try to use globally installed node.
-    download = true
+    download = false
 }
 
 task itest(type: NpmTask) {
@@ -201,4 +201,10 @@ task initDataInDB(){
     doLast {
         tasks.flywayMigrate.execute()
     }
+}
+
+test {
+	    beforeTest { descr ->
+			        logger.warn("Starting Test ${descr.className} : ${descr.name}")
+						    }
 }
