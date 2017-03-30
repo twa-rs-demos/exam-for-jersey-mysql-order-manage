@@ -2,8 +2,8 @@
 
 ## 使用
 ```
-source env
-mysql -u user -ppassword < db_init.sql
-./gradlew flywaymigrate
-./gradlew run
+$ source env
+$ mysql -u user -ppassword < db_init.sql
+$ ./gradlew flywaymigrate
+$ ./gradlew run
 ```
