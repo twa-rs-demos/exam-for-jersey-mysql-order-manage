@@ -1,0 +1,4 @@
+CREATE DATABASE `ketsu` CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER 'ketsu'@'%' IDENTIFIED BY 'ketsu';
+GRANT ALL PRIVILEGES ON ketsu.* TO 'ketsu'@'%';
+FLUSH PRIVILEGES;
