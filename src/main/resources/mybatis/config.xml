@@ -36,5 +36,8 @@
         <mapper resource="mybatis/mappers/Records.xml"/>
         <mapper resource="mybatis/mappers/Columns.xml"/>
         <mapper resource="mybatis/mappers/UserMapper.xml"/>
+        <mapper resource="mybatis/mappers/ItemMapper.xml"/>
+        <mapper resource="mybatis/mappers/CartMapper.xml"/>
+        <mapper resource="mybatis/mappers/CategoryMapper.xml"/>
     </mappers>
 </configuration>

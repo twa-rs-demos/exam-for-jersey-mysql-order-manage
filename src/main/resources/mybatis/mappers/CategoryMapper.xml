@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thoughtworks.ketsu.infrastructure.mybatis.mappers.CategoryMapper">
+    <resultMap id="categoryMap" type="com.thoughtworks.ketsu.domain.category.Category">
+        <id property="id" column="id"></id>
+        <result column="name" property="name"></result>
+    </resultMap>
+
+    <select id="findAll" resultMap="categoryMap">
+        select * from category;
+    </select>
+
+    <select id="findCategoryById" parameterType="java.lang.Integer" resultMap="categoryMap">
+        select * from category where id = #{id};
+    </select>
+
+    <insert id="insertCategory" parameterType="com.thoughtworks.ketsu.domain.category.Category" useGeneratedKeys="true" keyProperty="id">
+        insert into category value(null,#{name});
+    </insert>
+
+    <delete id="deleteCategoryById" parameterType="java.lang.Integer">
+        delete from category where id = #{id};
+    </delete>
+
+    <update id="updateCategory" parameterType="com.thoughtworks.ketsu.domain.category.Category">
+        update category set name = #{name} where id = #{id};
+    </update>
+
+</mapper>

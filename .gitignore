@@ -7,3 +7,5 @@ out/
 *.ipr
 *.iws
 .vagrant/
+verify/node_modules/
+verify/npm-debug.log

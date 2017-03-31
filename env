@@ -1,4 +1,4 @@
 export DB_PORT=3306
-export DB_ON_CREATE_DB=ketsu
-export DB_MYSQL_USER=ketsu
-export DB_MYSQL_PASS=ketsu
+export DB_ON_CREATE_DB=supermarket
+export DB_MYSQL_USER=supermarket
+export DB_MYSQL_PASS=supermarket

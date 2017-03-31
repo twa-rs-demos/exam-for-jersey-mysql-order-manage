@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thoughtworks.ketsu.infrastructure.mybatis.mappers.CartMapper">
+    <resultMap id="cartMap" type="com.thoughtworks.ketsu.domain.cart.Cart">
+        <id property="id" column="id"></id>
+        <result column="userId" property="userId"></result>
+        <!--one to many-->
+        <collection property="items" column="id" javaType="ArrayList" ofType="com.thoughtworks.twars.bean.Item"
+                    select="selectItemsByCartId"/>
+    </resultMap>
+
+    <resultMap id="itemMap" type="com.thoughtworks.ketsu.domain.item.Item">
+        <id property="id" column="id"></id>
+        <result column="name" property="name"></result>
+        <result column="price" property="price"></result>
+        <result column="categoryId" property="categoryId"></result>
+    </resultMap>
+
+
+    <select id="selectItemsByCartId" resultMap="itemMap">
+        select  item.*
+        from item INNER join itemCart on item.id = itemCart.itemId
+        where itemCart.cartId = #{id};
+    </select>
+
+    <insert id="insertCart" parameterType="com.thoughtworks.ketsu.domain.cart.Cart" useGeneratedKeys="true" keyProperty="id">
+        insert into cart value(null,#{userId});
+    </insert>
+
+    <delete id="deleteCartById" parameterType="java.lang.Integer">
+        delete from cart where id = #{id};
+    </delete>
+
+    <update id="updateCart" parameterType="com.thoughtworks.ketsu.domain.category.Category">
+        update cart set userId = #{userId} where id = #{id};
+    </update>
+
+    <select id="findAll" resultMap="cartMap">
+        select * from cart;
+    </select>
+
+    <select id="findCartById" resultMap="cartMap">
+        select  * from cart where id = #{id}
+    </select>
+
+    <insert id="insertItemCart" parameterType="java.lang.Integer" useGeneratedKeys="true" keyProperty="id">
+        insert into itemCart value(#{param1},#{param2});
+    </insert>
+
+    <delete id="deleteItemCart" parameterType="java.lang.Integer">
+        delete from itemCart where itemId = #{param1} and cartId=#{param2};
+    </delete>
+</mapper>
