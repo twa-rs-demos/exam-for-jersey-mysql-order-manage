@@ -13,6 +13,8 @@ $ ./gradlew run
 $ curl localhost:8088/users/001
 ```
 得到如下响应，即说明正常启动了服务器
+
+```json
 {
 	"role": "BACKGROUND_JOB",
 	"name": "admin",
@@ -23,7 +25,7 @@ $ curl localhost:8088/users/001
 	"id": "001",
 	"email": "admin@example.com"
 }
-
+```
 
 
 
