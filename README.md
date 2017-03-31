@@ -4,7 +4,7 @@
 ```
 $ source ./env
 $ mysql -u user -ppassword < db_init.sql
-$ ./gradlew flywaymigrate
+$ ./gradlew flywaycleawn flywaymigrate
 $ ./gradlew run
 ```
 
