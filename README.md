@@ -27,24 +27,3 @@ $ curl localhost:8088/users/001
 }
 ```
 
-## API
-- items   
-GET /items/:id	   
-POST /items   
-DELETE /items/:id   
-PUT /items/:id  	
-
-
-- categories  
-GET /categories/:id	  
-POST /categories   
-DELETE /categories/:id   
-PUT /categories/:id  	
-
-
-- carts  
-GET /carts/:id	  
-POST /carts  
-DELETE /carts/:id   
-PUT /carts/:id  	
-
