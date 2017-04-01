@@ -3,7 +3,7 @@
 ## 使用
 ```
 $ source ./env
-$ mysql -u user -ppassword < db_init.sql
+$ docker exec -i assembly_mysql_1 mysql -u user -ppassword < db_init.sql
 $ ./gradlew flywaycleawn flywaymigrate
 $ ./gradlew run
 ```
