@@ -125,6 +125,7 @@ mediaType: application/json
                 {
                   "$schema": "http://json-schema.org/draft-04/schema#",
                   "type": "object",
+                  "required": true,
                   "properties": {
                     "price": {
                       "type": "number"
@@ -166,6 +167,7 @@ mediaType: application/json
             {
               "$schema": "http://json-schema.org/draft-04/schema#",
               "type": "object",
+              "required": true,
               "properties": {
                 "price": {
                   "type": "number"
@@ -199,6 +201,7 @@ mediaType: application/json
               {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
+                "required": true,
                 "totalCount": {
                   "type": "integer"
                 },
@@ -258,10 +261,10 @@ mediaType: application/json
             "type": "object",
             "properties": {
               "name": {
-                "type": "string"
+                "type": "string",
+                "required": true
               }
-            },
-            "required": ["name"]
+            }
           }
         example: |
           {
@@ -277,10 +280,10 @@ mediaType: application/json
                "type": "object",
                "properties": {
                  "categoryUri": {
-                   "type": "string"
+                   "type": "string",
+                   "required": true
                  }
-               },
-               "required": ["categoryUri"]
+               }
              }
            example: |
              {
@@ -482,7 +485,7 @@ mediaType: application/json
               "items": {
                 "type": "array",
                 "items": {
-                  "type": "number"
+                  "type": "integer"
                 }
               }
             }
@@ -595,10 +598,10 @@ mediaType: application/json
               "type": "object",
               "properties": {
                 "userId": {
-                  "type": "integer"
+                  "type": "integer",
+                  "required": true
                 }
-               },
-               "required": ["userId"]
+               }
              }
           example: |
             {
