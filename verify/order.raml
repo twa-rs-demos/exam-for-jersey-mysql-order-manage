@@ -1,17 +1,7 @@
-#%RAML 1.0
+#%RAML 0.8
 title: supermarket-api
-version: 1.0
-baseUri: /
-types:
-  TestType:
-    type: object
-    properties:
-      id: number
-      optional?: string
-      expanded:
-        type: object
-        properties:
-          count: number
+mediaType: application/json
+
 /:
   get:
     description: 测试根路径
@@ -19,11 +9,20 @@ types:
       200:
         body:
           application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "string"
+                  }
+                 }
+               }
             example: |
               {
                 "items": "/items"
               }
-
 /items:
   get:
     description: 获取所有的商品列表
@@ -31,31 +30,89 @@ types:
       200:
         body:
           application/json:
-            properties:
-              totalCount: integer
-              items:
-                properties:
-                  []:
-                    properties:
-                      price: integer
-                      categoryUri: string
-                      name: string
-                      id: integer
-                      categoryId: integer
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "price": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "categoryUri": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "categoryId": {
+                      "type": "integer"
+                     }
+                  },
+                  "required": ["price", "name", "categoryUri", "id", "categoryId"]
+                }
+              }
+            example: |
+              [
+                {
+                  "price": 10,
+                  "categoryUri": "categories/2",
+                  "name": "apple",
+                  "id": 1,
+                  "categoryId": 2
+                }
+              ]
+
   post:
     description: 插入一个商品信息
     body:
       application/json:
-        properties:
-          name: string
-          price: number # double
-          categoryId: integer
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "price": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "categoryId": {
+                "type": "integer"
+               }
+            },
+            "required": ["price", "name", "categoryId"]
+          }
+        example: |
+          {
+            "price": 10,
+            "name": "apple",
+            "categoryId": 2
+          }
     responses:
       201:
         body:
           application/json:
-            properties:
-               itemUri: string
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "itemUri": {
+                    "type": "string"
+                  }
+                },
+                "required": ["itemUri"]
+              }
+            example: |
+              {
+                "itemUri": "items/10"
+              }
 
   /{id}:
     get:
@@ -64,12 +121,37 @@ types:
         200:
           body:
             application/json:
-              properties:
-                price: integer
-                categoryUri: string
-                name: string
-                id: integer
-                categoryId: integer
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "type": "object",
+                  "properties": {
+                    "price": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "categoryUri": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "categoryId": {
+                      "type": "integer"
+                     }
+                  },
+                  "required": ["price", "name", "categoryUri", "id", "categoryId"]
+                }
+              example: |
+                {
+                  "price": 10,
+                  "categoryUri": "categories/2",
+                  "name": "apple",
+                  "id": 1,
+                  "categoryId": 2
+                }
 
     delete:
       description: 删除指定商品id的商品信息
@@ -80,10 +162,29 @@ types:
       description: 更新指定商品id的商品信息
       body:
         application/json:
-          properties:
-            price: number #double
-            name: string
-            categoryId: integer
+          schema: |
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "price": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "categoryId": {
+                  "type": "integer"
+                 }
+              },
+              "required": ["price", "name", "categoryUri", "id", "categoryId"]
+            }
+          example: |
+            {
+              "price": 10,
+              "name": "apple",
+              "categoryId": 2
+            }
       responses:
         204:
 
@@ -94,28 +195,97 @@ types:
       200:
         body:
           application/json:
-            properties:
-              totalCount: integer
-              categories:
-                properties:
-                  []:
-                    properties:
-                      name: string
-                      id: integer
-                      categoryUri: string
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "totalCount": {
+                  "type": "integer"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "categoryId": {
+                        "type": "integer"
+                       }
+                    },
+                    "required": ["name", "id", "categoryId"]
+                  }
+                }
+              }
+            example: |
+              {
+                "totalCount": 4,
+                "items": [
+                  {
+                    "categoryUri": "categories/1",
+                    "name": "all",
+                    "id": 1
+                  },
+                  {
+                    "categoryUri": "categories/2",
+                    "name": "fruits",
+                    "id": 2
+                  },
+                  {
+                    "categoryUri": "categories/3",
+                    "name": "tools",
+                    "id": 3
+                  },
+                  {
+                    "categoryUri": "categories/4",
+                    "name": "milks",
+                    "id": 4
+                  }
+                ]
+              }
+
   post:
     description: 插入一个分类信息
     body:
       application/json:
-        properties:
-          name: string
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": ["name"]
+          }
+        example: |
+          {
+            "name": "xxxx"
+          }
     responses:
       201:
         body:
           application/json:
-            properties:
-              categoryUri: string
-
+           schema: |
+             {
+               "$schema": "http://json-schema.org/draft-04/schema#",
+               "type": "object",
+               "properties": {
+                 "categoryUri": {
+                   "type": "string"
+                 }
+               },
+               "required": ["categoryUri"]
+             }
+           example: |
+             {
+               "categoryUri": "xxxx"
+             }
   /{id}:
     get:
       description: 根据分类id获取指定商品信息
@@ -123,13 +293,37 @@ types:
         200:
           body:
             application/json:
-              properties:
-                price: integer
-                categoryUri: string
-                name: string
-                id: integer
-                categoryId: integer
-
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "type": "object",
+                  "properties": {
+                    "price": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "categoryUri": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "categoryId": {
+                      "type": "integer"
+                     }
+                  },
+                  "required": ["price", "name", "categoryUri", "id", "categoryId"]
+                }
+              example: |
+                {
+                  "price": 10,
+                  "categoryUri": "categories/2",
+                  "name": "apple",
+                  "id": 1,
+                  "categoryId": 2
+                }
     delete:
       description: 删除指定id的分类信息
       responses:
@@ -139,16 +333,40 @@ types:
           description: 删除失败，该分类下还有商品，不能删除
           body:
             application/json:
-              example : |
+              schema: |
                 {
-                  "meaasge": "该分类下还有商品，不能删除！"
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "type": "object",
+                  "properties": {
+                    "meaasge": {
+                      "type": "string",
+                      "required": true
+                    }
+                   }
+                 }
+              example: |
+                {
+                  "meaasge": "该分类下还有商品，不能删除"
                 }
     put:
       description: 更新指定id的分类信息
       body:
         application/json:
-          properties:
-            name: string
+          schema: |
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "required": true
+                }
+               }
+             }
+          example: |
+            {
+              "meaasge": "该分类下还有商品，不能删除"
+            }
       responses:
         204:
 /carts:
@@ -158,37 +376,140 @@ types:
       200:
         body:
           application/json:
-            properties:
-              totalCount: integer
-              items:
-                properties:
-                  []:
-                    properties:
-                      id: integer
-                      userId: string
-                      items:
-                        properties:
-                          []:
-                            properties:
-                              price: integer
-                              categoryUri: string
-                              name: string
-                              id: integer
-                              categoryId: integer
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "totalCount": {
+                    "type": "number"
+                  },
+                  "items": {
+                    "type": "array",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "userId": {
+                        "type": "string"
+                      },
+                      "items": {
+                        "type": "array",
+                        "properties": {
+                          "price": {
+                            "type": "number"
+                          },
+                          "id": {
+                            "type": "integer"
+                          },
+                          "categoryUri": {
+                            "type": "string"
+                          },
+                           "name": {
+                             "type": "string"
+                          },
+                           "categoryId": {
+                             "type": "integer"
+                          }
+                        },
+                        "required": ["price", "categoryId", "name", "categoryUri", "id"]
+                      }
+                    },
+                    "required": ["userId", "items", "id"]
+                  },
+                  "required": ["totalCount", "items"]
+                }
+              }
+            example: |
+              {
+                "totalCount": 3,
+                "items": [
+                  {
+                    "id": 1,
+                    "userId": 1,
+                    "items": [
+                      {
+                        "price": 2,
+                        "categoryUri": "categories/3",
+                        "name": "eraser",
+                        "id": 3,
+                        "categoryId": 3
+                      },
+                      {
+                        "price": 6,
+                        "categoryUri": "categories/2",
+                        "name": "orange",
+                        "id": 4,
+                        "categoryId": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "userId": 2,
+                    "items": [
+                      {
+                        "price": 10,
+                        "categoryUri": "categories/2",
+                        "name": "apple",
+                        "id": 1,
+                        "categoryId": 2
+                      },
+                      {
+                        "price": 5,
+                        "categoryUri": "categories/3",
+                        "name": "pen",
+                        "id": 2,
+                        "categoryId": 3
+                      }
+                    ]
+                  }
+                ]
+              }
+
   post:
     description: 插入一个购物车信息
     body:
       application/json:
-        properties:
-          userId: integer
-          items: integer[]
+        schema: |
+          {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "number"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        example: |
+          {
+            "userId": "1",
+            "items": [1, 2, 3]
+          }
     responses:
       201:
         body:
           application/json:
-            properties:
-              cartUri: string
-
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "cartUri": {
+                    "type": "string"
+                  }
+                }
+              }
+            example: |
+              {
+                "cartUri": "carts/4"
+              }
   /{id}:
     get:
       description: 根据购物车id获取指定购物车详细信息
@@ -196,18 +517,68 @@ types:
         200:
           body:
             application/json:
-              properties:
-                id: integer
-                userId: string
-                items:
-                  properties:
-                    []:
-                      properties:
-                        price: integer
-                        categoryUri: string
-                        name: string
-                        id: integer
-                        categoryId: integer
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "userId": {
+                      "type": "number"
+                    },
+                    "items": {
+                      "type": "array",
+                      "properties": {
+                        "price": {
+                          "type": "number"
+                        },
+                        "id": {
+                          "type": "number"
+                        },
+                        "categoryUri": {
+                          "type": "string"
+                        },
+                         "name": {
+                           "type": "string"
+                        },
+                         "categoryId": {
+                           "type": "number"
+                        },
+                        "required": ["price", "categoryId", "name", "categoryUri", "id"]
+                      }
+                    }
+                  }
+                }
+              example: |
+                {
+                  "id": 1,
+                  "userId": 1,
+                  "items": [
+                    {
+                      "price": 5,
+                      "categoryUri": "categories/3",
+                      "name": "pen",
+                      "id": 2,
+                      "categoryId": 3
+                    },
+                    {
+                      "price": 2,
+                      "categoryUri": "categories/3",
+                      "name": "eraser",
+                      "id": 3,
+                      "categoryId": 3
+                    },
+                    {
+                      "price": 6,
+                      "categoryUri": "categories/2",
+                      "name": "orange",
+                      "id": 4,
+                      "categoryId": 2
+                    }
+                  ]
+                }
 
     delete:
       description: 删除指定id的购物车信息
@@ -218,17 +589,26 @@ types:
       description: 更新指定id的购物车信息
       body:
         application/json:
-          properties:
-            userId: integer
+          schema: |
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "integer"
+                }
+               },
+               "required": ["userId"]
+             }
+          example: |
+            {
+              "userId": 33
+            }
       responses:
         204:
 
     /items/{id}:
-      put:
-        description: 更新指定 cart.id 下 items.id 的购物车信息
-        body:
-          application/json:
-            example : |
-              {}
+      delete:
+        description: 删除指定 cart.id 下 items.id 的购物车信息
         responses:
           204:
