@@ -1,74 +1,18 @@
 #%RAML 0.8
-title: supermarket-api
+title: supermarket-order-manage-api
 mediaType: application/json
 
-/:
+/products:
   get:
-    description: 测试根路径
+    description: As a customer I can get all the products then I can get products to buy
     responses:
       200:
         body:
           application/json:
-            schema: |
-              {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                  "items": {
-                    "type": "string"
-                  }
-                 }
-               }
-            example: |
-              {
-                "items": "/items"
-              }
-/items:
-  get:
-    description: 获取所有的商品列表
-    responses:
-      200:
-        body:
-          application/json:
-            schema: |
-              {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "price": {
-                      "type": "number"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "categoryUri": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "integer"
-                    },
-                    "categoryId": {
-                      "type": "integer"
-                     }
-                  },
-                  "required": ["price", "name", "categoryUri", "id", "categoryId"]
-                }
-              }
-            example: |
-              [
-                {
-                  "price": 10,
-                  "categoryUri": "categories/2",
-                  "name": "apple",
-                  "id": 1,
-                  "categoryId": 2
-                }
-              ]
+
 
   post:
-    description: 插入一个商品信息
+    description: As an admin I can create a production so that customer can buy the production
     body:
       application/json:
         schema: |
@@ -111,12 +55,12 @@ mediaType: application/json
               }
             example: |
               {
-                "itemUri": "items/10"
+                "itemUri": "products/10"
               }
 
   /{id}:
     get:
-      description: 根据商品id获取指定商品信息
+      description: As a customer I can view the production detail so that I can decide whether to buy the production or not.
       responses:
         200:
           body:
@@ -155,12 +99,12 @@ mediaType: application/json
                 }
 
     delete:
-      description: 删除指定商品id的商品信息
+      description: As a admin I can delete a production so that customer won't see outdated production
       responses:
         204:
 
     put:
-      description: 更新指定商品id的商品信息
+      description: As a admin I can update a production so that customer can see the newer production details
       body:
         application/json:
           schema: |
@@ -190,9 +134,9 @@ mediaType: application/json
       responses:
         204:
 
-/categories:
+/orders:
   get:
-    description: 获取所有的分类列表
+    description: As a admin, I can get all orders so that I can manage them.
     responses:
       200:
         body:
@@ -201,58 +145,38 @@ mediaType: application/json
               {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
-                "required": true,
                 "totalCount": {
                   "type": "integer"
                 },
-                "items": {
+                "orders": {
                   "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "categoryId": {
-                        "type": "integer"
-                       }
+                  "properties": {
+                    "provider_id": {
+                      "type": "integer"
                     },
-                    "required": ["name", "id", "categoryId"]
-                  }
+                    "product_id": {
+                      "type": "integer"
+                    },
+                    "count": {
+                      "type": "integer"
+                     }
+                  },
+                  "required": ["product_id", "provider_id", "count"]
                 }
               }
             example: |
               {
-                "totalCount": 4,
-                "items": [
-                  {
-                    "categoryUri": "categories/1",
-                    "name": "all",
-                    "id": 1
-                  },
-                  {
-                    "categoryUri": "categories/2",
-                    "name": "fruits",
-                    "id": 2
-                  },
-                  {
-                    "categoryUri": "categories/3",
-                    "name": "tools",
-                    "id": 3
-                  },
-                  {
-                    "categoryUri": "categories/4",
-                    "name": "milks",
-                    "id": 4
-                  }
-                ]
+                "totalCount": 1,
+                [{
+                  "provider_id": 1,
+                  "product_id": 2,
+                  "count": 10000
+                }]
+
               }
 
   post:
-    description: 插入一个分类信息
+    description: As a admin, I can create an order so that I can buy some products from provider.
     body:
       application/json:
         schema: |
@@ -260,264 +184,172 @@ mediaType: application/json
             "$schema": "http://json-schema.org/draft-04/schema#",
             "type": "object",
             "properties": {
-              "name": {
-                "type": "string",
-                "required": true
-              }
-            }
+              "provider_id": {
+                "type": "integer"
+              },
+              "product_id": {
+                "type": "integer"
+              },
+              "count": {
+                "type": "integer"
+               }
+            },
+           "required": ["product_id", "provider_id", "count"]
           }
         example: |
           {
-            "name": "xxxx"
+            "provider_id": 1,
+            "product_id": 2,
+            "count": 10000
           }
     responses:
       201:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "order_url": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            example: |
+              {
+                "order_id": "orders/10"
+              }
+
+ /{id}:
+    get:
+      description: As a admin, I can get an order so that I can manage it.
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "type": "array",
+                  "properties": {
+                    "provider_id": {
+                      "type": "integer"
+                    },
+                    "product_id": {
+                      "type": "integer"
+                    },
+                    "count": {
+                      "type": "integer"
+                     }
+                  },
+                  "required": ["product_id", "provider_id", "count"]
+                }
+              example: |
+                {
+                  "provider_id": 1,
+                  "product_id": 2,
+                  "count": 10000
+                }
+
+    put:
+      description: As a admin, I can update an order so that I modify order details.
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "provider_id": {
+                    "type": "integer"
+                  },
+                  "product_id": {
+                    "type": "integer"
+                  },
+                  "count": {
+                    "type": "integer"
+                   }
+                },
+               "required": ["product_id", "provider_id", "count"]
+              }
+            example: |
+              {
+                "provider_id": 1,
+                "product_id": 2,
+                "count": 10000
+              }
+        responses:
+          204:
+
+
+    delete:
+      description: As a admin, I can delete an order so that I can remove an useless order.
+        204:
+
+/providers:
+  get:
+    description: As a admin, I can get all providers so that I can manage them.
+    responses:
+      200:
         body:
           application/json:
            schema: |
              {
                "$schema": "http://json-schema.org/draft-04/schema#",
                "type": "object",
-               "properties": {
-                 "categoryUri": {
-                   "type": "string",
-                   "required": true
-                 }
-               }
-             }
-           example: |
-             {
-               "categoryUri": "xxxx"
-             }
-  /{id}:
-    get:
-      description: 根据分类id获取指定分类信息
-      responses:
-        200:
-          body:
-            application/json:
-              schema: |
-                {
-                  "$schema": "http://json-schema.org/draft-04/schema#",
-                  "type": "object",
-                  "properties": {
-                    "price": {
-                      "type": "number"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "categoryUri": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "integer"
-                    },
-                    "categoryId": {
-                      "type": "integer"
-                     }
-                  },
-                  "required": ["price", "name", "categoryUri", "id", "categoryId"]
-                }
-              example: |
-                {
-                  "price": 10,
-                  "categoryUri": "categories/2",
-                  "name": "apple",
-                  "id": 1,
-                  "categoryId": 2
-                }
-    delete:
-      description: 删除指定id的分类信息
-      responses:
-        204:
-          description: 删除成功
-        412:
-          description: 删除失败，该分类下还有商品，不能删除
-          body:
-            application/json:
-              schema: |
-                {
-                  "$schema": "http://json-schema.org/draft-04/schema#",
-                  "type": "object",
-                  "properties": {
-                    "meaasge": {
-                      "type": "string",
-                      "required": true
+               "totalCount": {
+                 "type": "integer"
+               },
+               "providers": {
+                 "type": "array",
+                 "properties": {
+                   "id": {
+                     "type": "integer"
+                   },
+                   "name": {
+                     "type": "string"
                     }
-                   }
-                 }
-              example: |
-                {
-                  "meaasge": "该分类下还有商品，不能删除"
-                }
-    put:
-      description: 更新指定id的分类信息
-      body:
-        application/json:
-          schema: |
-            {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "required": true
-                }
+                 },
+                 "required": ["id", "name"]
                }
              }
           example: |
             {
-              "meaasge": "该分类下还有商品，不能删除"
+              "totalCount": 2,
+              [{
+                "id": 1,
+                "name": "Super Apple"
+               }, {
+                "id": 2,
+                "name": "Little cookie"
+              }]
             }
-      responses:
-        204:
-/carts:
-  get:
-    description: 获取所有的购物车列表
-    responses:
-      200:
-        body:
-          application/json:
-            schema: |
-              {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                  "totalCount": {
-                    "type": "number"
-                  },
-                  "items": {
-                    "type": "array",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "userId": {
-                        "type": "string"
-                      },
-                      "items": {
-                        "type": "array",
-                        "properties": {
-                          "price": {
-                            "type": "number"
-                          },
-                          "id": {
-                            "type": "integer"
-                          },
-                          "categoryUri": {
-                            "type": "string"
-                          },
-                           "name": {
-                             "type": "string"
-                          },
-                           "categoryId": {
-                             "type": "integer"
-                          }
-                        },
-                        "required": ["price", "categoryId", "name", "categoryUri", "id"]
-                      }
-                    },
-                    "required": ["userId", "items", "id"]
-                  },
-                  "required": ["totalCount", "items"]
-                }
-              }
-            example: |
-              {
-                "totalCount": 3,
-                "items": [
-                  {
-                    "id": 1,
-                    "userId": 1,
-                    "items": [
-                      {
-                        "price": 2,
-                        "categoryUri": "categories/3",
-                        "name": "eraser",
-                        "id": 3,
-                        "categoryId": 3
-                      },
-                      {
-                        "price": 6,
-                        "categoryUri": "categories/2",
-                        "name": "orange",
-                        "id": 4,
-                        "categoryId": 2
-                      }
-                    ]
-                  },
-                  {
-                    "id": 2,
-                    "userId": 2,
-                    "items": [
-                      {
-                        "price": 10,
-                        "categoryUri": "categories/2",
-                        "name": "apple",
-                        "id": 1,
-                        "categoryId": 2
-                      },
-                      {
-                        "price": 5,
-                        "categoryUri": "categories/3",
-                        "name": "pen",
-                        "id": 2,
-                        "categoryId": 3
-                      }
-                    ]
-                  }
-                ]
-              }
+
 
   post:
-    description: 插入一个购物车信息
+    description: As a admin, I can create a provider so that I can buy products from a new provider.
     body:
       application/json:
         schema: |
-          {
-            "$schema": "http://json-schema.org/draft-04/schema#",
-            "type": "object",
-            "properties": {
-              "userId": {
-                "type": "number"
-              },
-              "items": {
-                "type": "array",
-                "items": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
+           {
+             "$schema": "http://json-schema.org/draft-04/schema#",
+             "type": "object",
+             "properties": {
+               "name": {
+                "type": "string",
+                "required": true
+               }
+             }
+           }
         example: |
           {
-            "userId": "1",
-            "items": [1, 2, 3]
+            "name": "Little Yellow Duck"
           }
+
     responses:
-      201:
-        body:
-          application/json:
-            schema: |
-              {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                  "cartUri": {
-                    "type": "string"
-                  }
-                }
-              }
-            example: |
-              {
-                "cartUri": "carts/4"
-              }
-  /{id}:
-    get:
-      description: 根据购物车id获取指定购物车详细信息
-      responses:
-        200:
+        201:
           body:
             application/json:
               schema: |
@@ -525,93 +357,73 @@ mediaType: application/json
                   "$schema": "http://json-schema.org/draft-04/schema#",
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "userId": {
-                      "type": "number"
-                    },
-                    "items": {
-                      "type": "array",
-                      "properties": {
-                        "price": {
-                          "type": "number"
-                        },
-                        "id": {
-                          "type": "number"
-                        },
-                        "categoryUri": {
-                          "type": "string"
-                        },
-                         "name": {
-                           "type": "string"
-                        },
-                         "categoryId": {
-                           "type": "number"
-                        },
-                        "required": ["price", "categoryId", "name", "categoryUri", "id"]
-                      }
+                    "provider_url": {
+                      "type": "string",
+                      "required": true
                     }
                   }
                 }
               example: |
                 {
-                  "id": 1,
-                  "userId": 1,
-                  "items": [
-                    {
-                      "price": 5,
-                      "categoryUri": "categories/3",
-                      "name": "pen",
-                      "id": 2,
-                      "categoryId": 3
-                    },
-                    {
-                      "price": 2,
-                      "categoryUri": "categories/3",
-                      "name": "eraser",
-                      "id": 3,
-                      "categoryId": 3
-                    },
-                    {
-                      "price": 6,
-                      "categoryUri": "categories/2",
-                      "name": "orange",
-                      "id": 4,
-                      "categoryId": 2
-                    }
-                  ]
+                  "provider_id": "providers/3"
                 }
 
-    delete:
-      description: 删除指定id的购物车信息
+  /{id}:
+    get:
+      description: As a admin, I can get an provider so that I can view its details.
       responses:
-        204:
+        200:
+          body:
+            application/json:
+             schema: |
+               {
+                 "$schema": "http://json-schema.org/draft-04/schema#",
+                 "type": "object",
+                 "properties": {
+                   "id": {
+                     "type": "integer"
+                   },
+                   "name": {
+                     "type": "string"
+                    }
+                 },
+                  "required": ["id", "name"]
+               }
+            example: |
+              {
+                "id": 1,
+                "name": "Super Apple"
+              }
 
     put:
-      description: 更新指定id的购物车信息
+      description: As a admin, I can update a provider's detail when this provider's detail had changed.
       body:
         application/json:
           schema: |
-            {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "integer",
-                  "required": true
-                }
+           {
+             "$schema": "http://json-schema.org/draft-04/schema#",
+             "type": "object",
+             "properties": {
+               "id": {
+                "type": "string",
+                "required": true
+               },
+               "name": {
+                "type": "string",
+                "required": true
                }
              }
+           }
           example: |
             {
-              "userId": 33
+              "id": 1,
+              "name": "Little Yellow Duck"
             }
       responses:
         204:
 
-    /items/{id}:
-      delete:
-        description: 删除指定 cart.id 下 items.id 的购物车信息
-        responses:
-          204:
+
+    delete:
+      description: As a admin, I can delete a provider when I won't to buy products from it.
+        204:
+
