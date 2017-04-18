@@ -11,7 +11,7 @@ var endpoint = process.env.ENDPOINT;
 
 console.log(endpoint);
 
-var providerId, providerURI, userName, orderURI, orderId;
+var providerId, providerURI, orderURI, orderId;
 
 describe("Test", function () {
   this.timeout(60000);
