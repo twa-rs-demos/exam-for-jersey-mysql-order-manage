@@ -118,9 +118,10 @@ describe("Test", function () {
             },
             "name": {
               "type": "string"
-            }
-          },
-          "required": ["id", "name"]
+            },
+            "required": ["id", "name"]
+          }
+          
         }
       };
       if (schema != '') {
@@ -205,18 +206,6 @@ describe("Test", function () {
       assert.isNull(error);
       assert.isNotNull(response, 'Response');
       assert.equal(response.statusCode, 201, "Expect 201, got " + response.statusCode);
-      var schema = "";
-      if (schema != '') {
-        // verify response body
-        body = (body == '' ? '[empty]' : body);
-        assert.doesNotThrow(function () {
-          JSON.parse(body);
-        }, JSON.SyntaxError, "Invalid JSON: " + body);
-        var json = JSON.parse(body);
-        var result = tv4.validateResult(json, schema);
-        assert.lengthOf(result.missing, 0, "Missing/unresolved JSON schema $refs (" + result.missing && result.missing.join(', ') + ") in schema: " + JSON.stringify(schema, null, 4) + " Error");
-        assert.ok(result.valid, "Got unexpected response body: " + (result.error && result.error.message) + " " + JSON.stringify(schema, null, 4) + " Error");
-      }
       orderURI = response.headers['location'];
       var splits = orderURI.split("/");
       orderId = splits[splits.length - 1];
